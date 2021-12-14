@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Sample</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="js/d3-mitch-tree.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/d3-mitch-tree.min.css">
+<link rel="stylesheet" type="text/css" href="css/d3-mitch-tree-theme-default.min.css">
+
+<!-- Modal -->
+<script src="js/modal.js"></script>
+<link rel="stylesheet" type="text/css" href="css/modal.css">
+
+
+<body>
+
+  <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title">name</h1>
+          <button type="button" data-close aria-label="Close">
+            <svg width="3rem" height="3rem" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd"
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h1>description</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Page content -->
+  <div id="container-element">
+  </div>
+  <!-- End Page Content -->
+  <script>
+
+    var openModal = function (title, message) {
+      var modal = new Modal(
+        document.querySelector('.modal'),
+        title,
+        message
+      );
+      modal.show();
+      return modal;
+    }
+
+    fetch(`nodes`)
+      .then(function (response) {
+        if (!response.ok)
+          throw new Error("No nodes were found.");
+
+        return response.json();
+      }).then(function (data) {
+
+        var treePlugin = new d3.mitchTree.boxedTree()
+          .setData(data.nodes[0])
+          .setElement(document.getElementById("container-element"))
+          .setIdAccessor(function (data) {
+            return data.name;
+          })
+          .setChildrenAccessor(function (data) {
+            return data.children;
+          })
+          .setBodyDisplayTextAccessor(function (data) {
+            return '';
+          })
+          .setTitleDisplayTextAccessor(function (data) {
+            return data.name;
+          })
+          .setAllowFocus(false)
+          .on("nodeClick", function (event) {
+            // This would cancel collapse of nodes,
+            // but it'll still select the node
+            // and center to it
+            this.removeSelection(this.getRoot());
+            event.nodeDataItem.selected = true;
+            if (this.getAllowNodeCentering())
+              this.centerNode(event.nodeDataItem);
+            this.update();
+
+            //cancel the collapse event entirely
+            if (event.type === 'collapse')
+              event.preventDefault();
+
+            var name = event.nodeDataItem.data.name;
+            var description = event.nodeDataItem.data.description;
+
+            // Show a modal here
+            openModal(name, description);
+
+          })
+          .initialize();
+
+        // Expand all nodes
+        var nodes = treePlugin.getNodes();
+        nodes.forEach(function (node, index, arr) {
+          treePlugin.expand(node);
+        });
+        treePlugin.update(treePlugin.getRoot());
+      })
+      .catch(function (error) {
+        console.log('Fetch Error :-S', error);
+      });
+
+  </script>
+
+</body>
+
+</html>

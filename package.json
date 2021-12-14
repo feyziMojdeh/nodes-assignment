@@ -1,0 +1,24 @@
+{
+  "name": "assignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config ./test/jest-e2e.json --collect-coverage --watch --detectOpenHandles",
+    "start": "node src/main.js",
+    "start:dev": "nodemon",
+    "migrate": "node data/migration.js"
+  },
+  "author": "mojdeh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "neo4j-driver": "^4.4.1"
+  },
+  "devDependencies": {
+    "jest": "^27.4.4",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.1.6"
+  }
+}
