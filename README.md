@@ -12,14 +12,14 @@ I started with a proof of concept to make sure that I can have a working app:
 Then, I tried to connect more pieces together.
 
 ## Challenges
-* I had the following major challenges in the given assignment (mostly due to the fact that it was my first nodejs/neo4j application):
+* I had the following major challenges in the given assignment (mostly since it was my first nodejs/neo4j application):
     * Learning how to work with Neo4j and writing a cypher query.
-    * Comming up with a proepr cypher query to load data from Neo4j with the minimum effort to map to the desired schema.
-    * Writing e2e tests that involves Neo4j as the data store.
+    * Coming up with a proper cypher query to load data from Neo4j with the minimum effort to map to the desired schema.
+    * Writing e2e tests that involve Neo4j as the data store.
     * Finding a way to debug my tests with jest where my application uses the type="module".
     
 
-According to the assignment criteria, I assumed it is intended to load the entire graph in one go and not eager loading the leaves.
+According to the assignment criteria, I assumed it is intended to load the entire graph in one go and not eagerly load the leaves.
 Unfortunately, I had no more time to create an Azure pipeline to get the application up and running easier.
 
 ## ToDo
