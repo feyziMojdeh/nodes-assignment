@@ -22,6 +22,11 @@ Then, I tried to connect more pieces together.
 According to the assignment criteria, I assumed it is intended to load the entire graph in one go and not eager loading the leaves.
 Unfortunately, I had no more time to create an Azure pipeline to get the application up and running easier.
 
+## ToDo
+* Mocking the Neo4j driver
+* Caching cypher queries
+* Using Vuejs
+
 # How To Run
 
 Prerequisites:
